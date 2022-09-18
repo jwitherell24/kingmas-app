@@ -19,9 +19,25 @@ def clean_price(price_str):
         return int(price_float * 100)
 
 
-def clean_date():
-    pass
-
+def clean_date(date_str):
+    split_date = date_str.split("/")
+    try:
+        month = int(split_date[0])
+        day = int(split_date[1])
+        year = int(split_date[2])
+        return_date = datetime.date(year, month, day)
+    except ValueError:
+        input("""
+              \n****** DATE ERROR ******
+              \rThe date format should include a valid Month/Day/Year (M/D/YYYY) from the past
+              \rEx. 3/15/2022
+              \rPress enter to try again.
+              ***************************""")
+        return
+    else:
+        return return_date
+    
+    
 
 def add_csv():
     with open("inventory.csv") as csvfile:
