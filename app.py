@@ -5,6 +5,16 @@ import csv
 import time
 
 
+def menu():
+    while True:
+        print("""
+              \nKINGMA'S MARKET INVENTORY
+              \r1) View product details (Press 'v' and 'enter')
+              \r2) Add a new product (Press 'a' and 'enter')
+              \r3) Make a backup of database (Press 'b' and 'enter')""")
+        choice = input("What would you like to do?  ")
+
+
 def clean_price(price_str):
     try:
         price_float = float((price_str).split("$")[1])
