@@ -59,8 +59,8 @@ def add_csv():
                 price = clean_price(row[1])
                 quantity = row[2]
                 date = clean_date(row[3])
-                new_book = Product(product_name=name, product_price=price, product_quantity=quantity, date_updated=date)
-                session.add(new_book)
+                new_product = Product(product_name=name, product_price=price, product_quantity=quantity, date_updated=date)
+                session.add(new_product)
         session.commit()
                    
 
