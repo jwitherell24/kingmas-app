@@ -45,10 +45,13 @@ def add_csv():
         for row in data:
             product_in_db = session.query(Product).filter(Product.product_name==row[0]).one_or_none()
             if product_in_db == None:
-                product_name = row[0]
-                product_price = clean_price(row[1])
-                product_quantity = row[2]
-                date_updated = clean_date(row[3])
+                name = row[0]
+                price = clean_price(row[1])
+                quantity = row[2]
+                date = clean_date(row[3])
+                new_book = Product(product_name=name, product_price=price, product_quantity=quantity, date_updated=date)
+                session.add(new_book)
+        session.commit()
                    
 
 if __name__ == "__main__":
