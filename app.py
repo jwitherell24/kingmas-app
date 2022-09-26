@@ -7,9 +7,19 @@ import csv
 def add_csv():
     with open("inventory.csv") as csvfile:
         data = csv.reader(csvfile)
-        if len(row[2]) > 5:
-            for row in data:
-                product_dict = ["Name": row[0], "Quantity": clean_quantity(row[2]), "Price": clean_price(row[1]), "Date": clean_date(row[3])]
+        for row in data:
+            if len(row[2]) < 5:
+                product_dict = {"Name": row[0], "Quantity": clean_quantity(row[2]), "Price": clean_price(row[1]), "Date": clean_date(row[3])}
+                new_product = Product(product_name=product_dict["Name"], product_quantity=product_dict["Quantity"], product_price=product_dict["Price"], date_updated=product_dict["Date"])
+                if session.query(Product).count() >= 27:
+                    product_list = []
+                    for product in session.query(Product.product_name):
+                        product_list.append(product.product_name)
+                    if f"{new_product.product_name}" not in product_list:
+                        session.add(new_product)
+                if session.query(Product).count() < 27:
+                    session.add(new_product)
+        session.commit()
                 
                 
 def clean_quantity(quantity_str):
@@ -31,4 +41,4 @@ def clean_date(date_str):
 if __name__ == "__main__":
     Base.metadata.create_all(engine)
     add_csv()
-    app()
+    # app()
