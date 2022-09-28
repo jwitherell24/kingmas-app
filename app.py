@@ -106,8 +106,52 @@ def app():
                         else:
                             continue
                     break
-                
-
+        elif choice == "a":
+            input("Press enter to begin adding a new product.  ")
+            new_name = input("Product name:  ")
+            while ValueError:
+                try:
+                    new_quantity = int(input("Quantity:  "))
+                except ValueError:
+                    input("""
+                          \rPlease enter your product quantity in integer form (i.e. 25).
+                          \rPress enter to continue.  """)
+                else:
+                    break
+            while IndexError:
+                try:
+                    new_price = input("Price (ex. $5.99):  ")
+                except IndexError:
+                    input("""
+                          \rPlease enter your price using the $5.99 example format.
+                          \rPress enter to continue.  """)
+                else:
+                    break
+            new_date = datetime.datetime.now()
+            new_date_str = datetime.datetime.strftime(new_date, "%m/%d/%Y")
+            cleaned_new_date = clean_date(new_date_str)
+            formatted_new_date = print_date(cleaned_new_date)
+            new_product = Product(product_name=new_name, product_quantity=new_quantity, product_price=new_price, date_updated=formatted_new_date)
+            product_list = []
+            for product in session.query(Product.product_name):
+                product_list.append(product.product_name)
+            if f"{new_product.product_name}" not in product_list:
+                session.add(new_product)
+                print("New product added!")
+            else:
+                for product in session.query(Product):
+                    product_str = str(product).split(";")
+                    product_name = str(product_str[0]).split(":")
+                    if product_name[1] == f"{new_product.product_name}":
+                        product.product_price = new_product.product_price
+                        product.product_quantity = new_product.product_quantity
+                        product.date_updated = new_product.date_updated
+                    else:
+                        continue
+            session.commit()
+        elif choice == "b":
+            
+            
 if __name__ == "__main__":
     Base.metadata.create_all(engine)
     add_csv()
