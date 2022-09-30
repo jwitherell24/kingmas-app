@@ -36,8 +36,33 @@ def add_csv():
                 if session.query(Product).count() < 27:
                     session.add(new_product)
         session.commit()
-                
-                
+        
+        
+def backup():
+    with open("inventory_backup.csv", "w") as csvbackup:
+        backup_writer = csv.DictWriter(csvbackup, fieldnames=["Name", "Quantity", "Price", "Date"])
+        backup_writer.writeheader()
+        
+        product_names = []
+        product_prices = []
+        product_quantities = []
+        dates_updated = []
+        for name in session.query(Product.product_name):
+            product_names.append(name.product_name)
+        for price in session.query(Product.product_price):
+            product_prices.append(price.product_price)
+        for quantity in session.query(Product.product_quantity):
+            product_quantities.append(quantity.product_quantity)
+        for date in session.query(Product.date_updated):
+            dates_updated.append(date.date_updated)
+            
+        id = 0
+        while id < len(product_names):
+            backup_writer.writerow({"Name": product_names[id], "Price": product_prices[id], 
+                                    "Quantity": product_quantities[id], "Date": dates_updated[id]})   
+            id += 1        
+        
+                            
 def clean_quantity(quantity_str):
     cleaned_quantity = int(quantity_str)
     return cleaned_quantity
@@ -79,6 +104,7 @@ def app():
     while app_running:
         choice = menu()
         if choice == "v":
+            print("\n")
             id = 1
             for product in session.query(Product.product_name):
                 print(f"{id}  {product.product_name}")
@@ -107,8 +133,9 @@ def app():
                             continue
                     break
         elif choice == "a":
-            input("Press enter to begin adding a new product.  ")
-            new_name = input("Product name:  ")
+            new_name = input("""
+                             \nYou have chosen to add a new item. Please provide:
+                             \rProduct name:  """)
             while ValueError:
                 try:
                     new_quantity = int(input("Quantity:  "))
@@ -120,7 +147,7 @@ def app():
                     break
             while IndexError:
                 try:
-                    new_price = input("Price (ex. $5.99):  ")
+                    new_price = clean_price(input("Price (ex. $5.99):  "))
                 except IndexError:
                     input("""
                           \rPlease enter your price using the $5.99 example format.
@@ -130,8 +157,7 @@ def app():
             new_date = datetime.datetime.now()
             new_date_str = datetime.datetime.strftime(new_date, "%m/%d/%Y")
             cleaned_new_date = clean_date(new_date_str)
-            formatted_new_date = print_date(cleaned_new_date)
-            new_product = Product(product_name=new_name, product_quantity=new_quantity, product_price=new_price, date_updated=formatted_new_date)
+            new_product = Product(product_name=new_name, product_quantity=new_quantity, product_price=new_price, date_updated=cleaned_new_date)
             product_list = []
             for product in session.query(Product.product_name):
                 product_list.append(product.product_name)
@@ -150,7 +176,7 @@ def app():
                         continue
             session.commit()
         elif choice == "b":
-            
+            backup()
             
 if __name__ == "__main__":
     Base.metadata.create_all(engine)
