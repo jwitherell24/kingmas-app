@@ -6,7 +6,7 @@ import csv
 
 def menu():
     print("""
-          \nKIGNMA'S MARKET INVENTORY\n
+          \nKIGNMA'S MARKET INVENTORY MAIN MENU\n
           \r1) View a product (enter 'v')
           \r2) Add item to database (enter'a')
           \r3) Make a backup file (enter 'b')""")
@@ -33,6 +33,19 @@ def add_csv():
                         product_list.append(product.product_name)
                     if f"{new_product.product_name}" not in product_list:
                         session.add(new_product)
+                else:
+                    for product in session.query(Product):
+                        product_str = str(product).split(";")
+                        product_name = str(product_str[0]).split(":")
+                        date_str = str(product_str[3]).split(":")
+                        date_input = str(date_str[1]).split(" ")
+                        date_updated = datetime.datetime.strptime(date_input[1], "%Y-%m-%d")
+                        if product_name[1] == f"{new_product.product_name}" and date_updated < new_product.date_updated:
+                            product.product_price = new_product.product_price
+                            product.product_quantity = new_product.product_quantity
+                            product.date_updated = new_product.date_updated
+                        else:
+                            continue
                 if session.query(Product).count() < 27:
                     session.add(new_product)
         session.commit()
@@ -88,7 +101,7 @@ def print_product(product):
     date_formatted = datetime.datetime.strptime(date_str[2], "%Y-%m-%d")
     print(f"""
           \n{product_split[0]}
-          \rQuantity: {product_split[1]}
+          \r{product_split[1]}
           \rPrice: ${int(price_split[1])/100}
           \rUpdated: {print_date(date_formatted)}
           """)
@@ -166,12 +179,13 @@ def app():
                 print("New product added!")
             else:
                 for product in session.query(Product):
-                    product_str = str(product).split(";")
-                    product_name = str(product_str[0]).split(":")
+                    product_str = str(product).split("; ")
+                    product_name = str(product_str[0]).split(": ")
                     if product_name[1] == f"{new_product.product_name}":
                         product.product_price = new_product.product_price
                         product.product_quantity = new_product.product_quantity
                         product.date_updated = new_product.date_updated
+                        print("Product updated!")
                     else:
                         continue
             session.commit()
