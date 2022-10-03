@@ -53,7 +53,7 @@ def add_csv():
         
 def backup():
     with open("backup.csv", "w") as csvbackup:
-        backup_writer = csv.DictWriter(csvbackup, fieldnames=["Name", "Quantity", "Price", "Date"])
+        backup_writer = csv.DictWriter(csvbackup, fieldnames=["product_name", "product_price", "product_quantity", "date_updated"])
         backup_writer.writeheader()
         
         product_names = []
@@ -71,8 +71,8 @@ def backup():
             
         id = 0
         while id < len(product_names):
-            backup_writer.writerow({"Name": product_names[id], "Price": product_prices[id], 
-                                    "Quantity": product_quantities[id], "Date": dates_updated[id]})   
+            backup_writer.writerow({"product_name": product_names[id], "product_price": product_prices[id], 
+                                    "product_quantity": product_quantities[id], "date_updated": dates_updated[id]})   
             id += 1        
         
                             
