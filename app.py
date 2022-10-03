@@ -7,9 +7,9 @@ import csv
 def menu():
     print("""
           \nKIGNMA'S MARKET INVENTORY MAIN MENU\n
-          \r1) View a product (enter 'v')
-          \r2) Add item to database (enter'a')
-          \r3) Make a backup file (enter 'b')""")
+          \r1) View a sing product's inventory (enter 'v')
+          \r2) Add a new product to the database (enter'a')
+          \r3) Make a backup of the entire inventory (enter 'b')""")
     choice = input("What would you like to do?  ").lower()
     if choice in ["v", "a", "b"]:
         return choice
@@ -35,8 +35,8 @@ def add_csv():
                         session.add(new_product)
                 else:
                     for product in session.query(Product):
-                        product_str = str(product).split(";")
-                        product_name = str(product_str[0]).split(":")
+                        product_str = str(product).split("; ")
+                        product_name = str(product_str[0]).split(": ")
                         date_str = str(product_str[3]).split(":")
                         date_input = str(date_str[1]).split(" ")
                         date_updated = datetime.datetime.strptime(date_input[1], "%Y-%m-%d")
@@ -52,7 +52,7 @@ def add_csv():
         
         
 def backup():
-    with open("inventory_backup.csv", "w") as csvbackup:
+    with open("backup.csv", "w") as csvbackup:
         backup_writer = csv.DictWriter(csvbackup, fieldnames=["Name", "Quantity", "Price", "Date"])
         backup_writer.writeheader()
         
@@ -95,13 +95,14 @@ def clean_date(date_str):
 def print_product(product):
     product_str = str(product)
     product_split = product_str.split(";")
+    quantity_split = product_split[1].split(": ")
     price_str = str(product_split[2])
     price_split = price_str.split(":")
     date_str = str(product_split[3]).split(" ")
     date_formatted = datetime.datetime.strptime(date_str[2], "%Y-%m-%d")
     print(f"""
           \n{product_split[0]}
-          \r{product_split[1]}
+          \rQuantity: {clean_quantity(quantity_split[1])}
           \rPrice: ${int(price_split[1])/100}
           \rUpdated: {print_date(date_formatted)}
           """)
@@ -191,6 +192,8 @@ def app():
             session.commit()
         elif choice == "b":
             backup()
+            input("\nBackup file has been created! Press enter to continue. ")
+            
             
 if __name__ == "__main__":
     Base.metadata.create_all(engine)
