@@ -3,6 +3,11 @@ from flask import (render_template, redirect,
 from models import db, Item, app
 
 
+@app.route("/")
+def index():
+    items = Item.query.all()
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
