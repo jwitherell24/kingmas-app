@@ -1,23 +1,23 @@
-from sqlalchemy import (create_engine, Column, 
-                        Integer, String, DateTime)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
-engine = create_engine("sqlite:///inventory.db", echo=False)
-Session = sessionmaker(bind=engine)
-session = Session()
-Base = declarative_base()
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///kingmas_inventory.db"
+db = SQLAlchemy(app)
 
-
-class Product(Base):
-    __tablename__ = "products"
-    
-    product_id = Column(Integer, primary_key=True)
-    product_name = Column("Name", String)
-    product_quantity = Column("Quantity", Integer)
-    product_price = Column("Price", Integer)
-    date_updated = Column("Date", DateTime)
+class Item (db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column("Item Name", db.String())
+    department = db.Column("Department", db.String())
+    made_in = db.Column("Made In", db.String())
+    description = db.Column("Item Description", db.Text)
+    image_link = db.Column("Image Link", db.Text)
     
     def __repr__(self):
-        return f"Name: {self.product_name}; Quantity: {self.product_quantity}; Price: {self.product_price}; Date: {self.date_updated}"
+        return f"""<Item:
+                Name: {self.name}
+                Department: {self.department}
+                Made In: {self.made_in}
+                Description: {self.description}
+                Image: {self.image_link}"""

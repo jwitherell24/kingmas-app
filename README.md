@@ -1,1 +1,1 @@
-This is my fourth project on Treehouse, a story inventory on SQLAlchemy. 
+An app allowing customers to view items currently carried by Kingma's, as well as different details on all of the products. Also enables searching for products by these details. 
