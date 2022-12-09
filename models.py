@@ -21,3 +21,4 @@ class Item (db.Model):
                 Made In: {self.made_in}
                 Description: {self.description}
                 Image: {self.image_link}"""
+                

@@ -1,0 +1,27 @@
+{% extends "layout.html" %} 
+
+{% block button %} 
+{% endblock %} 
+
+{% block content %}
+    <section class="header">
+        <h2>Add an Item</h2>
+    </section>
+    <section id="form">
+        <form action="{{ url_for('add_project') }}" method="POST">
+            <label for="brand">Brand Name</label>
+            <input id="brand" name="brand" type="text" placeholder="Brand Name" required>
+            <label for="item">Item</label>
+            <input id="item" name="item" type="text" placeholder="Item" required>
+            <label for="attributes">Item Attributes</label>
+            <p>Separate attributes with a comma</p>
+            <textarea id="attributes" name="attributes" cols="50" rows="50" placeholder="Non-Gmo, Vegan, etc." required></textarea>
+            <label for="url">Photo URL</label>
+            <input id="url" name="url" type="text" placeholder="Photo Link" required>
+            <div>
+                <button type="reset">Cancel</button>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </section>
+{% endblock %} 
