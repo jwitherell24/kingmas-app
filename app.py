@@ -9,6 +9,22 @@ def index():
     return render_template("index.html", items=items)
 
 
+@app.route("/items/new", methods=["GET", "POST"])
+def add_item():
+    items=Item.query.all()
+    if request.form:
+        new_item = Item(brand_name=request.form["brand"],
+                        name=request.form["name"],
+                        department=request.form["department"],
+                        local=request.form["local"],
+                        size=request.form["size"],
+                        attributes=request.form["attributes"],
+                        url=request.form["url"])
+        db.session.add(new_item)
+        db.session.commit()
+        return redirect(url_for("add_item"))
+    return render_template("additem.html", items=items) 
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
