@@ -8,11 +8,15 @@
         <h2>Add an Item</h2>
     </section>
     <section id="form">
-        <form action="{{ url_for('add_project') }}" method="POST">
+        <form action="{{ url_for('add_item') }}" method="POST">
             <label for="brand">Brand Name</label>
             <input id="brand" name="brand" type="text" placeholder="Brand Name" required>
-            <label for="item">Item</label>
-            <input id="item" name="item" type="text" placeholder="Item" required>
+            <label for="name">Item Name</label>
+            <input id="name" name="name" type="text" placeholder="Item" required>
+            <label for="department">Department</label>
+            <input id="department" name="department" type="text" Placeholder="Produce" required>
+            <label for="local">Made in Michigan?</label>
+            <input id="local" name="local" type="text" placeholder="Yes" required>
             <label for="size">Size</label>
             <input id="size" name="size" type="text" placeholder="26 oz" required>
             <label for="attributes">Item Attributes</label>

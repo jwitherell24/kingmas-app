@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
 {% block button %}
-{% endblock %} 
+<a class="add-project-btn" href="{{ url_for('add_item') }}" alt="Add Item">
+        <i class="fas fa-plus"></i>
+        Add Project
+    </a>
+{% endblock %}
 
 {% block content %} 
     <section class="header">

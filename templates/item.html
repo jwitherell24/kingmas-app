@@ -1,0 +1,19 @@
+{% extends "layout.html" %} 
+
+{% block button %} 
+    <a class="back-btn" href="{{ url_for('index')">
+        <i class="fas fa-caret-left"></i>
+        Back
+    </a>
+{% endblock %} 
+
+{block content %} 
+    <section class="header">
+        <img src="{{ item.url }}" alt="Image of product">
+        <h1>{{ item.brand }} {{ item.name }}</h1>
+        <p>{{ item.department }}</p>
+        <p>{{ item.local }}</p>
+        <p>{{ item.size }}</p>
+        <p>{{ item.attributes }}</p>
+    </section>
+{% endblock %} 

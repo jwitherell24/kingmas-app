@@ -8,17 +8,21 @@ db = SQLAlchemy(app)
 
 class Item (db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    brand = db.Column("Brand Name", db.String())
     name = db.Column("Item Name", db.String())
     department = db.Column("Department", db.String())
-    made_in = db.Column("Made In", db.String())
-    description = db.Column("Item Description", db.Text)
-    image_link = db.Column("Image Link", db.Text)
+    local = db.Column("Made in Michigan?", db.String())
+    size = db.Column("Item Size", db.String())
+    attributes = db.Column("Item Attributes", db.Text)
+    url = db.Column("Image", db.Text)
     
     def __repr__(self):
         return f"""<Item:
+                Brand Name: {self.brand} 
                 Name: {self.name}
                 Department: {self.department}
-                Made In: {self.made_in}
-                Description: {self.description}
-                Image: {self.image_link}"""
+                Made in Michigan?: {self.local}
+                Item Size: {self.size}
+                Attributes: {self.attributes}
+                Image: {self.url}"""
                 
