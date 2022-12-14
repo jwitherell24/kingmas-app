@@ -26,10 +26,36 @@ def add_item():
     return render_template("additem.html", items=items) 
 
 
-@app.route("/item/<id>")
-def item(id):
+@app.route("/items/<id>")
+def items(id):
+    items = Item.query.all()
     item = Item.query.get_or_404(id)
-    return render_template("item.html", item=item)
+    return render_template("items.html", items=items, item=item)
+
+
+@app.route("/items/<id>/edit", methods=["GET", "POST"]) 
+def edit_item(id):
+    items = Item.query.all()
+    item = Item.query.get_or_404(id)
+    if request.form:
+        item.brand = request.form["brand"]
+        item.name = request.form["name"]
+        item.department = request.form["department"]
+        item.local = request.form["local"]
+        item.size = request.form["size"]
+        item.attributes = request.form["attributes"]
+        item.url = request.form["url"] 
+        db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("edititem.html", items=items, item=item)
+
+
+@app.route("/items/<id>/delete")
+def delete_item(id):
+    item = Item.query.get_or_404(id)
+    db.session.delete(item)
+    db.session.commit()
+    return redirect(url_for("index"))
 
 
 @app.errorhandler(404)
