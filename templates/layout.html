@@ -7,26 +7,27 @@
         <title>Kingma's Market</title>
         <meta name="description" content="An inventory of items carried by Kingma's Market.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/font-awesome.min.css">
+        <script src="https://kit.fontawesome.com/3aab5bf412.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
         <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
-        <section class="navigation">
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{url_for('index') }}">Kingma's Market</a>
-                    <button class="toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                </button>
-                </div>
-            </nav>
-            {% block button %}
-            {% endblock %} 
-        </section>
+        {% block button %}
+        {% endblock %} 
+        <form action="" method="POST" id="searchForm">
+            <input type="text" id="searchBar" name="searchBar">
+            <input id="submit" name="submit" type="submit" value="Search">
+        </form>
         {% block content %} 
+        
         {% endblock %}
         <script src="" async defer></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
             crossorigin="anonymous"></script>
+        <script src="js/app.js"></script>
     </body>
 </html>

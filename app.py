@@ -3,7 +3,7 @@ from flask import (render_template, redirect,
 from models import db, Item, app
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     items = Item.query.all()
     return render_template("index.html", items=items)
